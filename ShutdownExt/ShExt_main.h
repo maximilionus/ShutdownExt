@@ -34,6 +34,13 @@ namespace ShutdownExt {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::Button^ btn_run;
+	private: System::Windows::Forms::Button^ btn_stop;
+	protected:
+
+
+
+	protected:
 
 	private:
 		/// <summary>
@@ -48,12 +55,45 @@ namespace ShutdownExt {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"ShExt_main";
-			this->Padding = System::Windows::Forms::Padding(0);
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ShExt_main::typeid));
+			this->btn_run = (gcnew System::Windows::Forms::Button());
+			this->btn_stop = (gcnew System::Windows::Forms::Button());
+			this->SuspendLayout();
+			// 
+			// btn_run
+			// 
+			resources->ApplyResources(this->btn_run, L"btn_run");
+			this->btn_run->Name = L"btn_run";
+			this->btn_run->UseVisualStyleBackColor = true;
+			this->btn_run->Click += gcnew System::EventHandler(this, &ShExt_main::Button1_Click);
+			// 
+			// btn_stop
+			// 
+			resources->ApplyResources(this->btn_stop, L"btn_stop");
+			this->btn_stop->Name = L"btn_stop";
+			this->btn_stop->UseVisualStyleBackColor = true;
+			this->btn_stop->Click += gcnew System::EventHandler(this, &ShExt_main::Button2_Click);
+			// 
+			// ShExt_main
+			// 
+			resources->ApplyResources(this, L"$this");
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(30)), static_cast<System::Int32>(static_cast<System::Byte>(30)),
+				static_cast<System::Int32>(static_cast<System::Byte>(30)));
+			this->Controls->Add(this->btn_stop);
+			this->Controls->Add(this->btn_run);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->MaximizeBox = false;
+			this->Name = L"ShExt_main";
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
+	private: System::Void Button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		system("shutdown -s -t 1800");
+	}
+	private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e) {
+		system("shutdown -a");
+	}
 	};
 }

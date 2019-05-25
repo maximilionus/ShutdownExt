@@ -1,4 +1,6 @@
+#include <iostream>
 #include "ShExt_main.h"
+#include "ShExt_FNCs.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
