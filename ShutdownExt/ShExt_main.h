@@ -14,6 +14,9 @@ namespace ShutdownExt {
 	/// </summary>
 	public ref class ShExt_main : public System::Windows::Forms::Form
 	{
+	private: bool dragging;
+	private: Point offset;
+
 	public:
 		ShExt_main(void)
 		{
@@ -38,6 +41,7 @@ namespace ShutdownExt {
 	private: System::Windows::Forms::Button^ btn_stop;
 	private: System::Windows::Forms::TextBox^ tbox_timer_input;
 	private: System::Windows::Forms::Label^ label_Time;
+	private: System::Windows::Forms::Button^ btn_close;
 
 
 	protected:
@@ -63,6 +67,7 @@ namespace ShutdownExt {
 			this->btn_stop = (gcnew System::Windows::Forms::Button());
 			this->tbox_timer_input = (gcnew System::Windows::Forms::TextBox());
 			this->label_Time = (gcnew System::Windows::Forms::Label());
+			this->btn_close = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// btn_run
@@ -103,6 +108,16 @@ namespace ShutdownExt {
 			this->label_Time->TabIndex = 3;
 			this->label_Time->Text = L"Time to shutdown (H)";
 			// 
+			// btn_close
+			// 
+			this->btn_close->Location = System::Drawing::Point(266, 3);
+			this->btn_close->Name = L"btn_close";
+			this->btn_close->Size = System::Drawing::Size(20, 20);
+			this->btn_close->TabIndex = 4;
+			this->btn_close->Text = L"X";
+			this->btn_close->UseVisualStyleBackColor = true;
+			this->btn_close->Click += gcnew System::EventHandler(this, &ShExt_main::Btn_close_Click);
+			// 
 			// ShExt_main
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -110,25 +125,52 @@ namespace ShutdownExt {
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(30)), static_cast<System::Int32>(static_cast<System::Byte>(30)),
 				static_cast<System::Int32>(static_cast<System::Byte>(30)));
 			this->ClientSize = System::Drawing::Size(284, 191);
+			this->Controls->Add(this->btn_close);
 			this->Controls->Add(this->label_Time);
 			this->Controls->Add(this->tbox_timer_input);
 			this->Controls->Add(this->btn_stop);
 			this->Controls->Add(this->btn_run);
-			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->MaximizeBox = false;
 			this->Name = L"ShExt_main";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"ShutdownExt";
+			this->Load += gcnew System::EventHandler(this, &ShExt_main::ShExt_main_Load);
+			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &ShExt_main::ShExt_main_MouseDown);
+			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &ShExt_main::ShExt_main_MouseMove);
+			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &ShExt_main::ShExt_main_MouseUp);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
+	private: System::Void ShExt_main_Load(System::Object^ sender, System::EventArgs^ e) {
+		this->dragging = false;
+	}
+	private: System::Void ShExt_main_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+		this->dragging = true;
+		this->offset = Point(e->X, e->Y);
+	}
+	private: System::Void ShExt_main_MouseMove(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+		if (this->dragging) {
+			Point currentScreenPos = PointToScreen(e->Location);
+			Location = Point(currentScreenPos.X - this->offset.X,
+				currentScreenPos.Y - this->offset.Y);
+		}
+	}
+	private: System::Void ShExt_main_MouseUp(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
+		this->dragging = false;
+	}
 	private: System::Void btn_run_Click(System::Object^ sender, System::EventArgs^ e) {
+		std::string* hours = new std::string;
 		system("shutdown -s -t 1800");
+		this->btn_stop->Enabled = true;
+		this->btn_run->Enabled = false;
 	}
 	private: System::Void btn_stop_Click(System::Object^ sender, System::EventArgs^ e) {
 		system("shutdown -a");
+		this->btn_stop->Enabled = false;
+		this->btn_run->Enabled = true;
 	}
 	private: System::Void Btn_close_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
