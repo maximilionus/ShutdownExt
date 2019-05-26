@@ -99,9 +99,9 @@ namespace ShutdownExt {
 			this->label_Time->ForeColor = System::Drawing::Color::White;
 			this->label_Time->Location = System::Drawing::Point(9, 32);
 			this->label_Time->Name = L"label_Time";
-			this->label_Time->Size = System::Drawing::Size(91, 13);
+			this->label_Time->Size = System::Drawing::Size(108, 13);
 			this->label_Time->TabIndex = 3;
-			this->label_Time->Text = L"Time to shutdown";
+			this->label_Time->Text = L"Time to shutdown (H)";
 			// 
 			// ShExt_main
 			// 
