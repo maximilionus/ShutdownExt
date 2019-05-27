@@ -200,10 +200,10 @@ namespace ShutdownExt {
 		String^ t_mins = this->tbox_In_Mins->Text;
 		String^ t_secs = this->tbox_In_Seconds->Text;
 
-		if (t_days->Empty) t_days = "0";
-		if (t_hours->Empty) t_hours = "0";
-		if (t_mins->Empty) t_mins = "0";
-		if (t_secs->Empty) t_secs = "0";
+		if (t_days == "") t_days = "0";
+		if (t_hours == "") t_hours = "0";
+		if (t_mins == "") t_mins = "0";
+		if (t_secs == "") t_secs = "0";
 
 		int input_time[4];
 		input_time[0] = (Convert::ToInt32(t_days));
