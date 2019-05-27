@@ -195,14 +195,28 @@ namespace ShutdownExt {
 		this->dragging = false;
 	}
 	private: System::Void btn_run_Click(System::Object^ sender, System::EventArgs^ e) {
-		int* input_hours = new int[(Convert::ToInt32(this->tbox_In_Days->Text)), (Convert::ToInt32(this->tbox_In_Hours->Text)), (Convert::ToInt32(this->tbox_In_Mins->Text)), (Convert::ToInt32(this->tbox_In_Seconds->Text))];
-		const char* shext_seconds = (shext_convertToSeconds(input_hours));
+		String^ t_days = this->tbox_In_Days->Text;
+		String^ t_hours = this->tbox_In_Hours->Text;
+		String^ t_mins = this->tbox_In_Mins->Text;
+		String^ t_secs = this->tbox_In_Seconds->Text;
 
-		system(shext_seconds);
+		if (t_days->Empty) t_days = "0";
+		if (t_hours->Empty) t_hours = "0";
+		if (t_mins->Empty) t_mins = "0";
+		if (t_secs->Empty) t_secs = "0";
+
+		int input_time[4];
+		input_time[0] = (Convert::ToInt32(t_days));
+		input_time[1] = (Convert::ToInt32(t_hours));
+		input_time[2] = (Convert::ToInt32(t_mins));
+		input_time[3] = (Convert::ToInt32(t_secs));
+
+		std::string shext_seconds = std::to_string(shext_convertToSeconds(input_time));
+		std::string shext_sysCom = "shutdown -s -t " + shext_seconds;
+
+		system(shext_sysCom.c_str());
 		this->btn_stop->Enabled = true;
 		this->btn_run->Enabled = false;
-
-		delete input_hours;
 	}
 	private: System::Void btn_stop_Click(System::Object^ sender, System::EventArgs^ e) {
 		system("shutdown -a");
