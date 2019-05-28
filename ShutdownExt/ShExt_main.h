@@ -22,6 +22,7 @@ namespace ShutdownExt {
 
 	private: System::Windows::Forms::FlowLayoutPanel^ shext_TopBorder;
 	private: System::Windows::Forms::FlowLayoutPanel^ shext_bottomPanel;
+	private: System::Windows::Forms::Button^ btn_minimize;
 
 
 
@@ -79,6 +80,7 @@ namespace ShutdownExt {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ShExt_main::typeid));
 			this->btn_run = (gcnew System::Windows::Forms::Button());
 			this->btn_stop = (gcnew System::Windows::Forms::Button());
 			this->tbox_In_Days = (gcnew System::Windows::Forms::TextBox());
@@ -89,6 +91,7 @@ namespace ShutdownExt {
 			this->tbox_In_Seconds = (gcnew System::Windows::Forms::TextBox());
 			this->shext_methodSelector = (gcnew System::Windows::Forms::ComboBox());
 			this->shext_TopBorder = (gcnew System::Windows::Forms::FlowLayoutPanel());
+			this->btn_minimize = (gcnew System::Windows::Forms::Button());
 			this->shext_bottomPanel = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->shext_TopBorder->SuspendLayout();
 			this->shext_bottomPanel->SuspendLayout();
@@ -149,9 +152,9 @@ namespace ShutdownExt {
 			this->btn_close->FlatAppearance->BorderColor = System::Drawing::Color::Black;
 			this->btn_close->FlatAppearance->BorderSize = 0;
 			this->btn_close->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btn_close->Location = System::Drawing::Point(387, 3);
+			this->btn_close->Location = System::Drawing::Point(386, 3);
 			this->btn_close->Name = L"btn_close";
-			this->btn_close->Size = System::Drawing::Size(19, 17);
+			this->btn_close->Size = System::Drawing::Size(20, 18);
 			this->btn_close->TabIndex = 4;
 			this->btn_close->UseVisualStyleBackColor = false;
 			this->btn_close->Click += gcnew System::EventHandler(this, &ShExt_main::Btn_close_Click);
@@ -193,6 +196,7 @@ namespace ShutdownExt {
 			this->shext_TopBorder->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(50)), static_cast<System::Int32>(static_cast<System::Byte>(50)),
 				static_cast<System::Int32>(static_cast<System::Byte>(50)));
 			this->shext_TopBorder->Controls->Add(this->btn_close);
+			this->shext_TopBorder->Controls->Add(this->btn_minimize);
 			this->shext_TopBorder->FlowDirection = System::Windows::Forms::FlowDirection::RightToLeft;
 			this->shext_TopBorder->Location = System::Drawing::Point(0, 0);
 			this->shext_TopBorder->Name = L"shext_TopBorder";
@@ -202,6 +206,21 @@ namespace ShutdownExt {
 			this->shext_TopBorder->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &ShExt_main::Shext_TopBorder_MouseDown);
 			this->shext_TopBorder->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &ShExt_main::Shext_TopBorder_MouseMove);
 			this->shext_TopBorder->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &ShExt_main::Shext_TopBorder_MouseUp);
+			// 
+			// btn_minimize
+			// 
+			this->btn_minimize->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(100)), static_cast<System::Int32>(static_cast<System::Byte>(100)),
+				static_cast<System::Int32>(static_cast<System::Byte>(100)));
+			this->btn_minimize->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->btn_minimize->FlatAppearance->BorderColor = System::Drawing::Color::Black;
+			this->btn_minimize->FlatAppearance->BorderSize = 0;
+			this->btn_minimize->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btn_minimize->Location = System::Drawing::Point(360, 3);
+			this->btn_minimize->Name = L"btn_minimize";
+			this->btn_minimize->Size = System::Drawing::Size(20, 18);
+			this->btn_minimize->TabIndex = 5;
+			this->btn_minimize->UseVisualStyleBackColor = false;
+			this->btn_minimize->Click += gcnew System::EventHandler(this, &ShExt_main::Btn_minimize_Click);
 			// 
 			// shext_bottomPanel
 			// 
@@ -228,6 +247,7 @@ namespace ShutdownExt {
 			this->Controls->Add(this->tbox_In_Hours);
 			this->Controls->Add(this->tbox_In_Days);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->Name = L"ShExt_main";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
@@ -288,6 +308,9 @@ namespace ShutdownExt {
 	}
 	private: System::Void Btn_close_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
+	}
+	private: System::Void Btn_minimize_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->WindowState = System::Windows::Forms::FormWindowState::Minimized;
 	}
 };
 }
