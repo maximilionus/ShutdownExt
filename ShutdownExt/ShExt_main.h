@@ -132,6 +132,7 @@ namespace ShutdownExt {
 			this->tbox_In_Days->Name = L"tbox_In_Days";
 			this->tbox_In_Days->Size = System::Drawing::Size(25, 20);
 			this->tbox_In_Days->TabIndex = 2;
+			this->tbox_In_Days->Text = L"0";
 			// 
 			// label_Time
 			// 
@@ -165,6 +166,7 @@ namespace ShutdownExt {
 			this->tbox_In_Hours->Name = L"tbox_In_Hours";
 			this->tbox_In_Hours->Size = System::Drawing::Size(25, 20);
 			this->tbox_In_Hours->TabIndex = 2;
+			this->tbox_In_Hours->Text = L"0";
 			// 
 			// tbox_In_Mins
 			// 
@@ -172,6 +174,7 @@ namespace ShutdownExt {
 			this->tbox_In_Mins->Name = L"tbox_In_Mins";
 			this->tbox_In_Mins->Size = System::Drawing::Size(25, 20);
 			this->tbox_In_Mins->TabIndex = 2;
+			this->tbox_In_Mins->Text = L"0";
 			// 
 			// tbox_In_Seconds
 			// 
@@ -179,16 +182,19 @@ namespace ShutdownExt {
 			this->tbox_In_Seconds->Name = L"tbox_In_Seconds";
 			this->tbox_In_Seconds->Size = System::Drawing::Size(25, 20);
 			this->tbox_In_Seconds->TabIndex = 2;
+			this->tbox_In_Seconds->Text = L"0";
 			// 
 			// shext_methodSelector
 			// 
+			this->shext_methodSelector->BackColor = System::Drawing::Color::White;
+			this->shext_methodSelector->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->shext_methodSelector->FormattingEnabled = true;
-			this->shext_methodSelector->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"Shutdown", L"Reboot", L"Sleep", L"Hibernation" });
+			this->shext_methodSelector->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"Shutdown", L"Reboot", L"Hibernation" });
 			this->shext_methodSelector->Location = System::Drawing::Point(162, 55);
 			this->shext_methodSelector->Name = L"shext_methodSelector";
 			this->shext_methodSelector->Size = System::Drawing::Size(118, 21);
 			this->shext_methodSelector->TabIndex = 5;
-			this->shext_methodSelector->Text = L"Shutdown";
+			this->shext_methodSelector->SelectedIndex = 0;
 			// 
 			// shext_TopBorder
 			// 
@@ -293,9 +299,10 @@ namespace ShutdownExt {
 		input_time[1] = (Convert::ToInt32(t_hours));
 		input_time[2] = (Convert::ToInt32(t_mins));
 		input_time[3] = (Convert::ToInt32(t_secs));
-
 		std::string shext_seconds = std::to_string(shext_convertToSeconds(input_time));
-		std::string shext_sysCom = "shutdown -s -t " + shext_seconds;
+
+		std::string shext_methodSelected = shext_selectExecMethod(this->shext_methodSelector->SelectedIndex);
+		std::string shext_sysCom = "shutdown -" + shext_methodSelected + " -t " + shext_seconds;
 
 		system(shext_sysCom.c_str());
 		this->btn_stop->Enabled = true;
