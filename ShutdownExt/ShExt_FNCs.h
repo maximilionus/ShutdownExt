@@ -11,6 +11,22 @@ int shext_convertToSeconds(int *inputArr)
 	int seconds = (inputArr[0] * 86400) + (inputArr[1] * 3600) + (inputArr[2] * 60) + inputArr[3];
 	return seconds;
 }
+int shext_parseTime(std::string date_in)
+{
+	int date[4];
+	int parserBegin = 0;
+	int parserDetectedPos;
+	std::string selectedPart;
+	for (int i = 0; i <= 3; i++)
+	{
+		parserDetectedPos = date_in.find(":", parserBegin);
+		selectedPart = date_in.substr(parserBegin, parserDetectedPos - 1);
+		date[i] = std::atoi(selectedPart.c_str());
+		parserBegin = parserDetectedPos + 1;
+	}
+
+	return date[0];
+}
 std::string shext_selectExecMethod(int input_method)
 {
 	std::string FinalSelectedMethod;
@@ -20,5 +36,6 @@ std::string shext_selectExecMethod(int input_method)
 	case 1: {FinalSelectedMethod = "r"; break; }
 	case 2: {FinalSelectedMethod = "h"; break; }
 	}
+
 	return FinalSelectedMethod;
 }

@@ -15,9 +15,9 @@ namespace ShutdownExt {
 	public ref class ShExt_main : public System::Windows::Forms::Form
 	{
 	private: bool dragging;
-	private: System::Windows::Forms::TextBox^ tbox_In_Hours;
-	private: System::Windows::Forms::TextBox^ tbox_In_Mins;
-	private: System::Windows::Forms::TextBox^ tbox_In_Seconds;
+
+
+
 	private: System::Windows::Forms::ComboBox^ shext_methodSelector;
 
 	private: System::Windows::Forms::FlowLayoutPanel^ shext_TopBorder;
@@ -54,7 +54,8 @@ namespace ShutdownExt {
 		}
 	private: System::Windows::Forms::Button^ btn_run;
 	private: System::Windows::Forms::Button^ btn_stop;
-	private: System::Windows::Forms::TextBox^ tbox_In_Days;
+	private: System::Windows::Forms::TextBox^ tbox_In_Time;
+
 
 
 	private: System::Windows::Forms::Label^ label_Time;
@@ -83,12 +84,9 @@ namespace ShutdownExt {
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(ShExt_main::typeid));
 			this->btn_run = (gcnew System::Windows::Forms::Button());
 			this->btn_stop = (gcnew System::Windows::Forms::Button());
-			this->tbox_In_Days = (gcnew System::Windows::Forms::TextBox());
+			this->tbox_In_Time = (gcnew System::Windows::Forms::TextBox());
 			this->label_Time = (gcnew System::Windows::Forms::Label());
 			this->btn_close = (gcnew System::Windows::Forms::Button());
-			this->tbox_In_Hours = (gcnew System::Windows::Forms::TextBox());
-			this->tbox_In_Mins = (gcnew System::Windows::Forms::TextBox());
-			this->tbox_In_Seconds = (gcnew System::Windows::Forms::TextBox());
 			this->shext_methodSelector = (gcnew System::Windows::Forms::ComboBox());
 			this->shext_TopBorder = (gcnew System::Windows::Forms::FlowLayoutPanel());
 			this->btn_minimize = (gcnew System::Windows::Forms::Button());
@@ -126,13 +124,14 @@ namespace ShutdownExt {
 			this->btn_stop->UseVisualStyleBackColor = false;
 			this->btn_stop->Click += gcnew System::EventHandler(this, &ShExt_main::btn_stop_Click);
 			// 
-			// tbox_In_Days
+			// tbox_In_Time
 			// 
-			this->tbox_In_Days->Location = System::Drawing::Point(162, 29);
-			this->tbox_In_Days->Name = L"tbox_In_Days";
-			this->tbox_In_Days->Size = System::Drawing::Size(25, 20);
-			this->tbox_In_Days->TabIndex = 2;
-			this->tbox_In_Days->Text = L"0";
+			this->tbox_In_Time->Location = System::Drawing::Point(162, 29);
+			this->tbox_In_Time->Name = L"tbox_In_Time";
+			this->tbox_In_Time->Size = System::Drawing::Size(118, 20);
+			this->tbox_In_Time->TabIndex = 2;
+			this->tbox_In_Time->Text = L"00:00:00:00";
+			this->tbox_In_Time->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			// 
 			// label_Time
 			// 
@@ -160,30 +159,6 @@ namespace ShutdownExt {
 			this->btn_close->UseVisualStyleBackColor = false;
 			this->btn_close->Click += gcnew System::EventHandler(this, &ShExt_main::Btn_close_Click);
 			// 
-			// tbox_In_Hours
-			// 
-			this->tbox_In_Hours->Location = System::Drawing::Point(193, 29);
-			this->tbox_In_Hours->Name = L"tbox_In_Hours";
-			this->tbox_In_Hours->Size = System::Drawing::Size(25, 20);
-			this->tbox_In_Hours->TabIndex = 2;
-			this->tbox_In_Hours->Text = L"0";
-			// 
-			// tbox_In_Mins
-			// 
-			this->tbox_In_Mins->Location = System::Drawing::Point(224, 29);
-			this->tbox_In_Mins->Name = L"tbox_In_Mins";
-			this->tbox_In_Mins->Size = System::Drawing::Size(25, 20);
-			this->tbox_In_Mins->TabIndex = 2;
-			this->tbox_In_Mins->Text = L"0";
-			// 
-			// tbox_In_Seconds
-			// 
-			this->tbox_In_Seconds->Location = System::Drawing::Point(255, 29);
-			this->tbox_In_Seconds->Name = L"tbox_In_Seconds";
-			this->tbox_In_Seconds->Size = System::Drawing::Size(25, 20);
-			this->tbox_In_Seconds->TabIndex = 2;
-			this->tbox_In_Seconds->Text = L"0";
-			// 
 			// shext_methodSelector
 			// 
 			this->shext_methodSelector->BackColor = System::Drawing::Color::White;
@@ -194,7 +169,6 @@ namespace ShutdownExt {
 			this->shext_methodSelector->Name = L"shext_methodSelector";
 			this->shext_methodSelector->Size = System::Drawing::Size(118, 21);
 			this->shext_methodSelector->TabIndex = 5;
-			this->shext_methodSelector->SelectedIndex = 0;
 			// 
 			// shext_TopBorder
 			// 
@@ -248,10 +222,7 @@ namespace ShutdownExt {
 			this->Controls->Add(this->label_Time);
 			this->Controls->Add(this->shext_TopBorder);
 			this->Controls->Add(this->shext_methodSelector);
-			this->Controls->Add(this->tbox_In_Seconds);
-			this->Controls->Add(this->tbox_In_Mins);
-			this->Controls->Add(this->tbox_In_Hours);
-			this->Controls->Add(this->tbox_In_Days);
+			this->Controls->Add(this->tbox_In_Time);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
@@ -284,22 +255,10 @@ namespace ShutdownExt {
 	}
 	//Movable window by Top Border element
 	private: System::Void btn_run_Click(System::Object^ sender, System::EventArgs^ e) {
-		String^ t_days = this->tbox_In_Days->Text;
-		String^ t_hours = this->tbox_In_Hours->Text;
-		String^ t_mins = this->tbox_In_Mins->Text;
-		String^ t_secs = this->tbox_In_Seconds->Text;
-
-		if (t_days == "") t_days = "0";
-		if (t_hours == "") t_hours = "0";
-		if (t_mins == "") t_mins = "0";
-		if (t_secs == "") t_secs = "0";
-
-		int input_time[4];
-		input_time[0] = (Convert::ToInt32(t_days));
-		input_time[1] = (Convert::ToInt32(t_hours));
-		input_time[2] = (Convert::ToInt32(t_mins));
-		input_time[3] = (Convert::ToInt32(t_secs));
-		std::string shext_seconds = std::to_string(shext_convertToSeconds(input_time));
+		String^ t_date = this->tbox_In_Time->Text;
+		std::string t_date_str = msclr::interop::marshal_as<std::string>(t_date);
+		int shext_date_parsed = shext_parseTime(t_date_str);
+		std::string shext_seconds = std::to_string(shext_convertToSeconds(&shext_date_parsed));
 
 		std::string shext_methodSelected = shext_selectExecMethod(this->shext_methodSelector->SelectedIndex);
 		std::string shext_sysCom = "shutdown -" + shext_methodSelected + " -t " + shext_seconds;

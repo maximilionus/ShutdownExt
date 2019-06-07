@@ -1,5 +1,9 @@
 #include <iostream>
 #include <string>
+#include <msclr/marshal.h>
+#include <msclr/marshal_atl.h>
+#include <msclr/marshal_cppstd.h>
+#include <msclr/marshal_windows.h>
 #include "ShExt_FNCs.h"
 #include "ShExt_main.h"
 
