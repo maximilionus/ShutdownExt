@@ -20,8 +20,8 @@ int shext_parseTime(std::string date_in)
 	for (int i = 0; i <= 3; i++)
 	{
 		parserDetectedPos = date_in.find(":", parserBegin);
-		selectedPart = date_in.substr(parserBegin, parserDetectedPos - 1);
-		date[i] = std::atoi(selectedPart.c_str());
+		selectedPart = date_in.substr(parserBegin, parserDetectedPos);
+		date[i] = System::Convert::ToInt32(selectedPart.c_str());
 		parserBegin = parserDetectedPos + 1;
 	}
 
